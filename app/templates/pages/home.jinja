@@ -23,10 +23,17 @@
 
         <ul>
             {% for task in tasks %}
-                <li>
-                    <p><a href="/thing/{{ task.id }}">
+                <li class="task">
+
+                    <span class="name">
+                        {{ task.priority }}
+                    </span>
+                    <span class="name">
                         {{ task.name }}
-                    </a></p>
+                    </span>
+                    <span class="complete">
+                        {{ task.name }}
+                    </span>
                 </li>
 
             {% else %}
