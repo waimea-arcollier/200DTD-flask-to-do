@@ -26,7 +26,7 @@ register_error_handlers(app)
 @app.get("/")
 def index():
     with connect_db() as client:
-        sql = "SELECT id, name, priority, complete FROM tasks"
+        sql = "SELECT id, name, priority, complete FROM tasks ORDER BY priority desc"
         result = client.execute(sql)
         tasks = result.rows
     return render_template("pages/home.jinja", tasks=tasks)

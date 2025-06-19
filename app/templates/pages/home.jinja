@@ -22,26 +22,55 @@
     <article>
 
         <ul>
-            {% for task in tasks %}
-                <li class="task">
+            <table>
+  <thead>
+    <tr>
+      <th scope="col">Priority</th>
+      <th scope="col">Name</th>
+      <th scope="col">Complete</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for task in tasks %}
+    <tr>
+        <td class="priority">
+            {{ task.priority }}
+        </td>
+        <td class="name">
+            {{ task.name }}
+        </td>
+        <td class="complete">
+            <input type="checkbox">
+        </td>
+    </tr>
+      {% else %}
 
-                    <span class="name">
-                        {{ task.priority }}
-                    </span>
-                    <span class="name">
-                        {{ task.name }}
-                    </span>
-                    <span class="complete">
-                        {{ task.complete }}
-                    </span>
-                </li>
+        <p>None!</p>
 
-            {% else %}
-
-                <p>None!</p>
-
-            {% endfor %}
+      {% endfor %}
+  </tbody>
+</table>
+              
         </ul>
+
+    </article>
+
+    <article>
+
+        <form action="/add-task" method="POST">
+            
+            <label>
+                Priority (1-5)
+                <input name="priority" type="text" min="0" value="0" required>
+            </label>
+
+            <label>
+                Task Name
+                <input name="name" type="text" required>
+            </label>
+
+            <button>Add Your Task</button>
+        </form>
 
     </article>
 
