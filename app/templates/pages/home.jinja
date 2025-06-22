@@ -40,7 +40,15 @@
             {{ task.name }}
         </td>
         <td class="complete">
-            <input type="checkbox">
+            {% if task.complete %}
+                <form action="/uncomplete/{{ task.id }}" method="POST">
+                    <input type="checkbox" checked onchange="this.form.submit()">
+                </form>
+            {% else %}
+                <form action="/complete/{{ task.id }}" method="POST">
+                    <input type="checkbox" onchange="this.form.submit()">
+                </form>
+            {% endif %}
         </td>
     </tr>
       {% else %}
@@ -57,11 +65,18 @@
 
     <article>
 
-        <form action="/add-task" method="POST">
+        <form action="/add/{{ tasks.id }}" method="POST">
             
             <label>
                 Priority (1-5)
-                <input name="priority" type="text" min="0" value="0" required>
+                <select name="select" aria-label="Select" required>
+                    <option selected disabled value="">Select</option>
+                    <option name="priority" type="int">1</option>
+                    <option name="priority" type="int">2</option>
+                    <option name="priority" type="int">3</option>
+                    <option name="priority" type="int">4</option>
+                    <option name="priority" type="int">5</option>
+                </select>
             </label>
 
             <label>

@@ -80,25 +80,25 @@ def show_one_thing(id):
 #-----------------------------------------------------------
 # Route for adding a thing, using data posted from a form
 #-----------------------------------------------------------
-@app.post("/add")
-def add_a_thing():
+@app.post("/add/")
+def add_task():
     # Get the data from the form
     name  = request.form.get("name")
-    price = request.form.get("price")
+    priority = request.form.get("priority")
 
-    # Sanitise the inputs
+    # Sanitize the inputs
     name = html.escape(name)
-    price = html.escape(price)
+    priority = html.escape(priority)
 
     with connect_db() as client:
         # Add the thing to the DB
-        sql = "INSERT INTO things (name, price) VALUES (?, ?)"
-        values = [name, price]
+        sql = "INSERT INTO tasks (name, priority) VALUES (?, ?)"
+        values = [name, priority]
         client.execute(sql, values)
 
         # Go back to the home page
-        flash(f"Thing '{name}' added", "success")
-        return redirect("/things")
+        flash(f"Task '{name}' added", "success")
+        return redirect("/")
 
 
 #-----------------------------------------------------------
@@ -108,12 +108,34 @@ def add_a_thing():
 def delete_a_thing(id):
     with connect_db() as client:
         # Delete the thing from the DB
-        sql = "DELETE FROM things WHERE id=?"
+        sql = "DELETE FROM tasks WHERE id=?"
         values = [id]
         client.execute(sql, values)
 
         # Go back to the home page
-        flash("Thing deleted", "warning")
-        return redirect("/things")
+        flash("Task deleted", "warning")
+        return redirect("/")
 
+
+@app.post("/complete/<int:id>")
+def complete_task(id):
+    with connect_db() as client:
+         # Delete the thing from the DB
+         sql = "UPDATE tasks SET complete = 1 WHERE id=?"
+         values = [id]
+         client.execute(sql, values)
+
+         # # Go back to the home page
+         return redirect("/")
+
+@app.post("/uncomplete/<int:id>")
+def uncomplete_task(id):
+    with connect_db() as client:
+         # Delete the thing from the DB
+         sql = "UPDATE tasks SET complete = 0 WHERE id=?"
+         values = [id]
+         client.execute(sql, values)
+
+         # # Go back to the home page
+         return redirect("/")
 
